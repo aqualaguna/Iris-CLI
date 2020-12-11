@@ -15,11 +15,11 @@ Iris CMS CLI
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g Iris-CLI
+$ npm install -g iris-cli
 $ iris COMMAND
 running command...
 $ iris (-v|--version|version)
-Iris-CLI/1.0.0 linux-x64 node-v12.20.0
+iris-cli/1.0.0 linux-x64 node-v12.20.0
 $ iris --help [COMMAND]
 USAGE
   $ iris COMMAND
@@ -28,18 +28,40 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`iris autocomplete [SHELL]`](#iris-autocomplete-shell)
 * [`iris build`](#iris-build)
-* [`iris clear:cache [FILE]`](#iris-clearcache-file)
+* [`iris clear:cache`](#iris-clearcache)
 * [`iris create NAME`](#iris-create-name)
-* [`iris create:test [FILE]`](#iris-createtest-file)
-* [`iris deploy [FILE]`](#iris-deploy-file)
+* [`iris deploy [ARGS]`](#iris-deploy-args)
 * [`iris help [COMMAND]`](#iris-help-command)
 * [`iris init [FILE]`](#iris-init-file)
-* [`iris init:user [FILE]`](#iris-inituser-file)
+* [`iris init:user`](#iris-inituser)
 * [`iris install`](#iris-install)
-* [`iris serve [FILE]`](#iris-serve-file)
-* [`iris test [FILE]`](#iris-test-file)
-* [`iris update [FILE]`](#iris-update-file)
+* [`iris serve`](#iris-serve)
+* [`iris upgrade [VERSION]`](#iris-upgrade-version)
+
+## `iris autocomplete [SHELL]`
+
+display autocomplete installation instructions
+
+```
+USAGE
+  $ iris autocomplete [SHELL]
+
+ARGUMENTS
+  SHELL  shell type
+
+OPTIONS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+EXAMPLES
+  $ iris autocomplete
+  $ iris autocomplete bash
+  $ iris autocomplete zsh
+  $ iris autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.2.0/src/commands/autocomplete/index.ts)_
 
 ## `iris build`
 
@@ -59,13 +81,13 @@ DESCRIPTION
 
 _See code: [src/commands/build.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/build.ts)_
 
-## `iris clear:cache [FILE]`
+## `iris clear:cache`
 
 Clear Download Cache
 
 ```
 USAGE
-  $ iris clear:cache [FILE]
+  $ iris clear:cache
 
 OPTIONS
   -h, --help  show CLI help
@@ -91,34 +113,19 @@ OPTIONS
 
 _See code: [src/commands/create/index.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/create/index.ts)_
 
-## `iris create:test [FILE]`
+## `iris deploy [ARGS]`
 
-describe the command here
-
-```
-USAGE
-  $ iris create:test [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-```
-
-_See code: [src/commands/create/test.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/create/test.ts)_
-
-## `iris deploy [FILE]`
-
-describe the command here
+deploy to firebase.
 
 ```
 USAGE
-  $ iris deploy [FILE]
+  $ iris deploy [ARGS]
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help  show CLI help
+
+DESCRIPTION
+  syntax sugar to 'firebase deploy' with args
 ```
 
 _See code: [src/commands/deploy.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/deploy.ts)_
@@ -149,29 +156,35 @@ USAGE
   $ iris init [FILE]
 
 OPTIONS
-  -b, --no-build    Do not build
-  -d, --no-deploy   Do not deploy to firebase
-  -h, --help        show CLI help
-  -i, --no-install  Do not install
+  -b, --no-build           Do not build
+  -c, --no-init-call       Do not call init functions.
+  -d, --no-deploy          Do not deploy to firebase
+  -e, --email=email        Email to Register
+  -h, --help               show CLI help
+  -i, --no-install         Do not install
+  -p, --password=password  Password to Register
 
 DESCRIPTION
-  its just multiple command 'install', 'build, 'firebase deploy', & init functions call
+  its just multiple command 'install', 'build, 'firebase deploy', & 'init:user'
 ```
 
-_See code: [src/commands/init.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/init.ts)_
+_See code: [src/commands/init/index.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/init/index.ts)_
 
-## `iris init:user [FILE]`
+## `iris init:user`
 
-describe the command here
+Init User for super admin.
 
 ```
 USAGE
-  $ iris init:user [FILE]
+  $ iris init:user
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -e, --email=email        Email to Register
+  -h, --help               show CLI help
+  -p, --password=password  Password to Register
+
+DESCRIPTION
+  this can be called once per project. second time will be ignored as success.
 ```
 
 _See code: [src/commands/init/user.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/init/user.ts)_
@@ -193,51 +206,38 @@ DESCRIPTION
 
 _See code: [src/commands/install.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/install.ts)_
 
-## `iris serve [FILE]`
+## `iris serve`
 
-describe the command here
+Run CMS on firebase emulators. 
 
 ```
 USAGE
-  $ iris serve [FILE]
+  $ iris serve
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help  show CLI help
+  -i, --init  init emulator
+
+DESCRIPTION
+  some functionality may not running as expected because emulator is not perfect.
 ```
 
 _See code: [src/commands/serve.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/serve.ts)_
 
-## `iris test [FILE]`
+## `iris upgrade [VERSION]`
 
-describe the command here
-
-```
-USAGE
-  $ iris test [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-```
-
-_See code: [src/commands/test.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/test.ts)_
-
-## `iris update [FILE]`
-
-describe the command here
+Upgrade your Iris version. 
 
 ```
 USAGE
-  $ iris update [FILE]
+  $ iris upgrade [VERSION]
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help  show CLI help
+
+DESCRIPTION
+  latest(default) if not specified.
 ```
 
-_See code: [src/commands/update.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/update.ts)_
+_See code: [src/commands/upgrade.ts](https://github.com/aqualaguna/Iris-CLI/blob/v1.0.0/src/commands/upgrade.ts)_
 <!-- commandsstop -->
