@@ -3,8 +3,8 @@ import * as fs from "fs-extra";
 import * as shell from "shelljs";
 import Install from "../install";
 import Build from "../build";
-import BaseCommand from '../../base';
-import InitUser from './user';
+import BaseCommand from "../../base";
+import InitUser from "./user";
 
 export default class Init extends BaseCommand {
   static description = `Init Iris CMS.\n its just multiple command 'install', 'build, 'firebase deploy', & 'init:user'`;
@@ -27,14 +27,9 @@ export default class Init extends BaseCommand {
   static args = [{ name: "file" }];
   async run() {
     const { args, flags } = this.parse(Init);
-    // first check if this right directory well for check let see if user.json exists
+    // first check if this right directory
     let pjson = await fs.readJSON(process.cwd() + "/package.json");
-    if (
-      !(
-        fs.existsSync(process.cwd() + "/user.json") &&
-        pjson.name == "@aqualaguna/iris"
-      )
-    ) {
+    if (!(typeof pjson.iris_version == "string")) {
       this.error("This directory is not Iris Directory");
     }
     // first execute init
@@ -58,14 +53,14 @@ export default class Init extends BaseCommand {
     if (!flags["no-init-call"]) {
       let args = [];
       if (flags.email) {
-        args.push('-e', flags.email);
+        args.push("-e", flags.email);
       }
       if (flags.password) {
-        args.push('-p', flags.password);
+        args.push("-p", flags.password);
       }
       await InitUser.run(args);
     }
-    this.log('Init Command Success ⚡')
+    this.log("Init Command Success ⚡");
     this.exit(0);
   }
 }

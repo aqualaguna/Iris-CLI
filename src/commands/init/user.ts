@@ -45,6 +45,13 @@ export default class InitUser extends BaseCommand {
           password,
         }).then((res) => {
           this.log("success init firestore !!🤟");
+        }).catch((e) => {
+          this.error(e.message, {
+            code: 'init_failed',
+            suggestions: [
+              'check if your firebase functions is deployed.'
+            ]
+          })
         });
         // exit loop
         break;

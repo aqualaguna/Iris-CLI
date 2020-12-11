@@ -15,11 +15,11 @@ Iris CMS CLI
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g iris-cli
+$ npm install -g iris-cms-cli
 $ iris COMMAND
 running command...
 $ iris (-v|--version|version)
-iris-cli/1.0.0 linux-x64 node-v12.20.0
+iris-cms-cli/1.0.0 linux-x64 node-v12.20.0
 $ iris --help [COMMAND]
 USAGE
   $ iris COMMAND
